@@ -12,6 +12,7 @@ module Plaid
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
         http.ssl_version = :TLSv1
+        http.ciphers = ['RC4-SHA']
         request = Net::HTTP::Post.new(uri.path)
         request.set_form_data(options)
         res = http.request(request)
@@ -24,6 +25,7 @@ module Plaid
         http = Net::HTTP.new(uri.host, uri.port)
         http.use_ssl = true
         http.ssl_version = :TLSv1
+        http.ciphers = ['RC4-SHA']
         request = Net::HTTP::Get.new(uri.path)
         res = http.request(request)
         parse_get_response(res.body)
@@ -36,7 +38,7 @@ module Plaid
         req = Net::HTTP::Get.new(uri.path)
         req.body = URI.encode_www_form(options) if options
         req.content_type = 'application/x-www-form-urlencoded'
-        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1) { |http| http.request(req) }
+        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1, ciphers: ['RC4-SHA']) { |http| http.request(req) }
         parse_response(res)
       end
 
@@ -47,7 +49,7 @@ module Plaid
         req = Net::HTTP::Patch.new(uri.path)
         req.body = URI.encode_www_form(options) if options
         req.content_type = 'application/x-www-form-urlencoded'
-        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1) { |http| http.request(req) }
+        res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1, ciphers: ['RC4-SHA']) { |http| http.request(req) }
         parse_response(res)
       end
 
@@ -58,7 +60,7 @@ module Plaid
         req = Net::HTTP::Delete.new(uri.path)
         req.body = URI.encode_www_form(options) if options
         req.content_type = 'application/x-www-form-urlencoded'
-        Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1) { |http| http.request(req) }
+        Net::HTTP.start(uri.hostname, uri.port, use_ssl: true, ssl_version: :TLSv1, ciphers: ['RC4-SHA']) { |http| http.request(req) }
       end
 
       protected
